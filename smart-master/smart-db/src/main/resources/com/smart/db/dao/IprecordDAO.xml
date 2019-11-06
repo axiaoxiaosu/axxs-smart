@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.smart.db.dao.IprecordDAO">
+    <resultMap id="BaseResultMap" type="com.smart.db.model.Iprecord">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="ip" jdbcType="BIGINT" property="ip"/>
+        <result column="func" jdbcType="VARCHAR" property="func"/>
+        <result column="country" jdbcType="VARCHAR" property="country"/>
+        <result column="city" jdbcType="VARCHAR" property="city"/>
+        <result column="region_name" jdbcType="VARCHAR" property="regionName"/>
+        <result column="time" jdbcType="TIMESTAMP" property="time"/>
+        <result column="count" javaType="INT" property="count"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    id, ip, func, country, city, region_name, `time`
+  </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from iprecord
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from iprecord
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+    <insert id="insert" parameterType="com.smart.db.model.Iprecord">
+    insert into iprecord (id, ip, func, country, 
+      city, region_name, `time`
+      )
+    values (#{id,jdbcType=BIGINT}, #{ip,jdbcType=BIGINT}, #{func,jdbcType=VARCHAR}, #{country,jdbcType=VARCHAR}, 
+      #{city,jdbcType=VARCHAR}, #{regionName,jdbcType=VARCHAR}, #{time,jdbcType=TIMESTAMP}
+      )
+  </insert>
+    <insert id="insertSelective" parameterType="com.smart.db.model.Iprecord">
+        insert into iprecord
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="ip != null">
+                ip,
+            </if>
+            <if test="func != null">
+                func,
+            </if>
+            <if test="country != null">
+                country,
+            </if>
+            <if test="city != null">
+                city,
+            </if>
+            <if test="regionName != null">
+                region_name,
+            </if>
+            <if test="time != null">
+                `time`,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=BIGINT},
+            </if>
+            <if test="ip != null">
+                #{ip,jdbcType=BIGINT},
+            </if>
+            <if test="func != null">
+                #{func,jdbcType=VARCHAR},
+            </if>
+            <if test="country != null">
+                #{country,jdbcType=VARCHAR},
+            </if>
+            <if test="city != null">
+                #{city,jdbcType=VARCHAR},
+            </if>
+            <if test="regionName != null">
+                #{regionName,jdbcType=VARCHAR},
+            </if>
+            <if test="time != null">
+                #{time,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.smart.db.model.Iprecord">
+        update iprecord
+        <set>
+            <if test="ip != null">
+                ip = #{ip,jdbcType=BIGINT},
+            </if>
+            <if test="func != null">
+                func = #{func,jdbcType=VARCHAR},
+            </if>
+            <if test="country != null">
+                country = #{country,jdbcType=VARCHAR},
+            </if>
+            <if test="city != null">
+                city = #{city,jdbcType=VARCHAR},
+            </if>
+            <if test="regionName != null">
+                region_name = #{regionName,jdbcType=VARCHAR},
+            </if>
+            <if test="time != null">
+                `time` = #{time,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.smart.db.model.Iprecord">
+    update iprecord
+    set ip = #{ip,jdbcType=BIGINT},
+      func = #{func,jdbcType=VARCHAR},
+      country = #{country,jdbcType=VARCHAR},
+      city = #{city,jdbcType=VARCHAR},
+      region_name = #{regionName,jdbcType=VARCHAR},
+      `time` = #{time,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+
+    <select id="getReportIp" resultMap="BaseResultMap">
+               SELECT
+            count( 1 ) AS count,
+            ifnull(country,'') as country,
+            ifnull(city,'') as city,
+            ifnull(region_name,'') as region_name
+        FROM
+            iprecord
+        GROUP BY
+            country,
+            city,
+            region_name
+    </select>
+
+
+    <select id="selectIpByData" resultType="java.lang.Integer">
+        select 1 from iprecord
+where ip=#{ip} and DATEDIFF(time,NOW())=0
+    </select>
+</mapper>

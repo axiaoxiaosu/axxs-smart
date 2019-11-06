@@ -1,0 +1,4 @@
+# 启动时选择test作为启动项
+spring:
+  profiles:
+    active: dev

@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.smart.db.dao.MplTaskLogDAO">
+    <resultMap id="BaseResultMap" type="com.smart.db.model.MplTaskLog">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="job_id" jdbcType="VARCHAR" property="jobId"/>
+        <result column="job_name" jdbcType="VARCHAR" property="jobName"/>
+        <result column="cron_expression" jdbcType="VARCHAR" property="cronExpression"/>
+        <result column="time_consuming" jdbcType="BIGINT" property="timeConsuming"/>
+        <result column="job_group" jdbcType="VARCHAR" property="jobGroup"/>
+        <result column="invoke_target" jdbcType="VARCHAR" property="invokeTarget"/>
+        <result column="msg" jdbcType="VARCHAR" property="msg"/>
+        <result column="error" jdbcType="VARCHAR" property="error"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    id, job_id, job_name, cron_expression, time_consuming, job_group, invoke_target, 
+    msg, error
+  </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from mpl_task_log
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from mpl_task_log
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+    <insert id="insert" parameterType="com.smart.db.model.MplTaskLog">
+    insert into mpl_task_log (id, job_id, job_name, 
+      cron_expression, time_consuming, job_group, 
+      invoke_target, msg, error
+      )
+    values (#{id,jdbcType=BIGINT}, #{jobId,jdbcType=VARCHAR}, #{jobName,jdbcType=VARCHAR}, 
+      #{cronExpression,jdbcType=VARCHAR}, #{timeConsuming,jdbcType=BIGINT}, #{jobGroup,jdbcType=VARCHAR}, 
+      #{invokeTarget,jdbcType=VARCHAR}, #{msg,jdbcType=VARCHAR}, #{error,jdbcType=VARCHAR}
+      )
+  </insert>
+    <insert id="insertSelective" parameterType="com.smart.db.model.MplTaskLog">
+        insert into mpl_task_log
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="jobId != null">
+                job_id,
+            </if>
+            <if test="jobName != null">
+                job_name,
+            </if>
+            <if test="cronExpression != null">
+                cron_expression,
+            </if>
+            <if test="timeConsuming != null">
+                time_consuming,
+            </if>
+            <if test="jobGroup != null">
+                job_group,
+            </if>
+            <if test="invokeTarget != null">
+                invoke_target,
+            </if>
+            <if test="msg != null">
+                msg,
+            </if>
+            <if test="error != null">
+                error,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=BIGINT},
+            </if>
+            <if test="jobId != null">
+                #{jobId,jdbcType=VARCHAR},
+            </if>
+            <if test="jobName != null">
+                #{jobName,jdbcType=VARCHAR},
+            </if>
+            <if test="cronExpression != null">
+                #{cronExpression,jdbcType=VARCHAR},
+            </if>
+            <if test="timeConsuming != null">
+                #{timeConsuming,jdbcType=BIGINT},
+            </if>
+            <if test="jobGroup != null">
+                #{jobGroup,jdbcType=VARCHAR},
+            </if>
+            <if test="invokeTarget != null">
+                #{invokeTarget,jdbcType=VARCHAR},
+            </if>
+            <if test="msg != null">
+                #{msg,jdbcType=VARCHAR},
+            </if>
+            <if test="error != null">
+                #{error,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.smart.db.model.MplTaskLog">
+        update mpl_task_log
+        <set>
+            <if test="jobId != null">
+                job_id = #{jobId,jdbcType=VARCHAR},
+            </if>
+            <if test="jobName != null">
+                job_name = #{jobName,jdbcType=VARCHAR},
+            </if>
+            <if test="cronExpression != null">
+                cron_expression = #{cronExpression,jdbcType=VARCHAR},
+            </if>
+            <if test="timeConsuming != null">
+                time_consuming = #{timeConsuming,jdbcType=BIGINT},
+            </if>
+            <if test="jobGroup != null">
+                job_group = #{jobGroup,jdbcType=VARCHAR},
+            </if>
+            <if test="invokeTarget != null">
+                invoke_target = #{invokeTarget,jdbcType=VARCHAR},
+            </if>
+            <if test="msg != null">
+                msg = #{msg,jdbcType=VARCHAR},
+            </if>
+            <if test="error != null">
+                error = #{error,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.smart.db.model.MplTaskLog">
+    update mpl_task_log
+    set job_id = #{jobId,jdbcType=VARCHAR},
+      job_name = #{jobName,jdbcType=VARCHAR},
+      cron_expression = #{cronExpression,jdbcType=VARCHAR},
+      time_consuming = #{timeConsuming,jdbcType=BIGINT},
+      job_group = #{jobGroup,jdbcType=VARCHAR},
+      invoke_target = #{invokeTarget,jdbcType=VARCHAR},
+      msg = #{msg,jdbcType=VARCHAR},
+      error = #{error,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

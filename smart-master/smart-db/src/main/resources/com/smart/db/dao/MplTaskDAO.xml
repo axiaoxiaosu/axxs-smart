@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.smart.db.dao.MplTaskDAO">
+    <resultMap id="BaseResultMap" type="com.smart.db.model.MplTask">
+        <id column="job_id" jdbcType="BIGINT" property="jobId"/>
+        <result column="job_name" jdbcType="VARCHAR" property="jobName"/>
+        <result column="cron_expression" jdbcType="VARCHAR" property="cronExpression"/>
+        <result column="job_group" jdbcType="VARCHAR" property="jobGroup"/>
+        <result column="invoke_target" jdbcType="VARCHAR" property="invokeTarget"/>
+        <result column="concurrency" jdbcType="CHAR" property="concurrency"/>
+        <result column="status" jdbcType="CHAR" property="status"/>
+        <result column="count" jdbcType="INTEGER" property="count"/>
+        <result column="misfire_policy" jdbcType="VARCHAR" property="misfirePolicy"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    job_id, job_name, cron_expression, job_group, invoke_target, concurrency, `status`, 
+    `count`, misfire_policy
+  </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from mpl_task
+        where job_id = #{jobId,jdbcType=BIGINT}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from mpl_task
+    where job_id = #{jobId,jdbcType=BIGINT}
+  </delete>
+    <insert id="insert" parameterType="com.smart.db.model.MplTask">
+    insert into mpl_task (job_id, job_name, cron_expression, 
+      job_group, invoke_target, concurrency, 
+      `status`, `count`, misfire_policy
+      )
+    values (#{jobId,jdbcType=BIGINT}, #{jobName,jdbcType=VARCHAR}, #{cronExpression,jdbcType=VARCHAR}, 
+      #{jobGroup,jdbcType=VARCHAR}, #{invokeTarget,jdbcType=VARCHAR}, #{concurrency,jdbcType=CHAR}, 
+      #{status,jdbcType=CHAR}, #{count,jdbcType=INTEGER}, #{misfirePolicy,jdbcType=VARCHAR}
+      )
+  </insert>
+    <insert id="insertSelective" keyProperty="jobId" parameterType="com.smart.db.model.MplTask" useGeneratedKeys="true">
+        insert into mpl_task
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="jobId != null">
+                job_id,
+            </if>
+            <if test="jobName != null">
+                job_name,
+            </if>
+            <if test="cronExpression != null">
+                cron_expression,
+            </if>
+            <if test="jobGroup != null">
+                job_group,
+            </if>
+            <if test="invokeTarget != null">
+                invoke_target,
+            </if>
+            <if test="concurrency != null">
+                concurrency,
+            </if>
+            <if test="status != null">
+                `status`,
+            </if>
+            <if test="count != null">
+                `count`,
+            </if>
+            <if test="misfirePolicy != null">
+                misfire_policy,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="jobId != null">
+                #{jobId,jdbcType=BIGINT},
+            </if>
+            <if test="jobName != null">
+                #{jobName,jdbcType=VARCHAR},
+            </if>
+            <if test="cronExpression != null">
+                #{cronExpression,jdbcType=VARCHAR},
+            </if>
+            <if test="jobGroup != null">
+                #{jobGroup,jdbcType=VARCHAR},
+            </if>
+            <if test="invokeTarget != null">
+                #{invokeTarget,jdbcType=VARCHAR},
+            </if>
+            <if test="concurrency != null">
+                #{concurrency,jdbcType=CHAR},
+            </if>
+            <if test="status != null">
+                #{status,jdbcType=CHAR},
+            </if>
+            <if test="count != null">
+                #{count,jdbcType=INTEGER},
+            </if>
+            <if test="misfirePolicy != null">
+                #{misfirePolicy,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.smart.db.model.MplTask">
+        update mpl_task
+        <set>
+            <if test="jobName != null">
+                job_name = #{jobName,jdbcType=VARCHAR},
+            </if>
+            <if test="cronExpression != null">
+                cron_expression = #{cronExpression,jdbcType=VARCHAR},
+            </if>
+            <if test="jobGroup != null">
+                job_group = #{jobGroup,jdbcType=VARCHAR},
+            </if>
+            <if test="invokeTarget != null">
+                invoke_target = #{invokeTarget,jdbcType=VARCHAR},
+            </if>
+            <if test="concurrency != null">
+                concurrency = #{concurrency,jdbcType=CHAR},
+            </if>
+            <if test="status != null">
+                `status` = #{status,jdbcType=CHAR},
+            </if>
+            <if test="count != null">
+                `count` = #{count,jdbcType=INTEGER},
+            </if>
+            <if test="misfirePolicy != null">
+                misfire_policy = #{misfirePolicy,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where job_id = #{jobId,jdbcType=BIGINT}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.smart.db.model.MplTask">
+    update mpl_task
+    set job_name = #{jobName,jdbcType=VARCHAR},
+      cron_expression = #{cronExpression,jdbcType=VARCHAR},
+      job_group = #{jobGroup,jdbcType=VARCHAR},
+      invoke_target = #{invokeTarget,jdbcType=VARCHAR},
+      concurrency = #{concurrency,jdbcType=CHAR},
+      `status` = #{status,jdbcType=CHAR},
+      `count` = #{count,jdbcType=INTEGER},
+      misfire_policy = #{misfirePolicy,jdbcType=VARCHAR}
+    where job_id = #{jobId,jdbcType=BIGINT}
+  </update>
+
+    <select id="selectJobByName" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from mpl_task
+        <if test="taskName!=null and taskName!=''">
+            where job_name like concat('%',#{taskName},'%')
+        </if>
+    </select>
+</mapper>

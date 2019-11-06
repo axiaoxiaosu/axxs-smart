@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+  PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+  "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+
+<generatorConfiguration>
+    <properties resource="jdbc.properties"/>
+    <context defaultModelType="flat" id="MySqlContext" targetRuntime="MyBatis3">
+        <property name="beginningDelimiter" value="`"/>
+        <property name="endingDelimiter" value="`"/>
+        <property name="javaFileEncoding" value="UTF-8"/>
+        <!-- 为模型生成序列化方法-->
+        <plugin type="org.mybatis.generator.plugins.SerializablePlugin"/>
+        <!-- 为生成的Java模型创建一个toString方法 -->
+        <plugin type="org.mybatis.generator.plugins.ToStringPlugin"/>
+        <commentGenerator type="com.smart.CommentGenerator">
+            <!-- 是否去除自动生成的注释 true：是 ： false:否 -->
+            <property name="suppressAllComments" value="true"/>
+            <property name="suppressDate" value="true"/>
+            <property name="addRemarkComments" value="true"/>
+        </commentGenerator>
+
+        <jdbcConnection connectionURL="${jdbc.connectionURL}"
+          driverClass="${jdbc.driverClass}"
+          password="${jdbc.password}"
+          userId="${jdbc.userId}">
+        </jdbcConnection>
+
+        <javaModelGenerator targetPackage="com.smart.model" targetProject="smart-db\src\main\java"/>
+
+        <sqlMapGenerator targetPackage="dao" targetProject="smart-db\src\main\resources\com\smart"/>
+
+        <javaClientGenerator targetPackage="com.smart.dao" targetProject="smart-db\src\main\java"
+          type="XMLMAPPER"/>
+        <!--生成全部表tableName设为%-->
+        <table tableName="%">
+            <generatedKey column="id" identity="true" sqlStatement="MySql"/>
+        </table>
+    </context>
+</generatorConfiguration>

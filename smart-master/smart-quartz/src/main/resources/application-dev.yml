@@ -1,0 +1,63 @@
+server:
+  port: 7780
+spring:
+  application:
+    name: quartz
+  datasource:
+    druid:
+      initial-size: 5
+      max-active: 20
+      min-idle: 10
+      stat-view-servlet:
+        login-password: druid
+        login-username: druid
+      web-stat-filter:
+        exclusions: '*.js,*.gif,*.jpg,*.png,*.css,*.ico,/druid/*'
+    password: root
+    url: jdbc:mysql://127.0.0.1:3306/smart?useUnicode=true&characterEncoding=utf8&serverTimezone=UTC
+    username: 123456
+  redis:
+    database: 0
+    host: 127.0.0.1
+    password: ''
+    port: 6379
+    timeout: 300
+  swagger-enable: true  #swagger 开关
+  quartz:
+    job-store-type: jdbc
+    wait-for-jobs-to-complete-on-shutdown: true
+    scheduler-name: smart-scheduler
+    properties:
+      org.quartz.threadPool.threadCount: 5
+      org.quartz.threadPool.threadPriority: 5
+      org.quartz.threadPool.threadsInheritContextClassLoaderOfInitializingThread: true
+      org.quartz.jobStore.misfireThreshold: 5000
+      org.quartz.jobStore.class: org.quartz.impl.jdbcjobstore.JobStoreTX
+      org.quartz.jobStore.driverDelegateClass: org.quartz.impl.jdbcjobstore.StdJDBCDelegate
+      # 在调度流程的第一步，也就是拉取待即将触发的triggers时，是上锁的状态，即不会同时存在多个线程拉取到相同的trigger的情况，也就避免的重复调度的危险。参考：https://segmentfault.com/a/1190000015492260
+      org.quartz.jobStore.acquireTriggersWithinLock: true
+  rabbitmq:
+    host: 127.0.0.1
+    port: 5672
+    username: lwq
+    password: 123
+    publisher-confirms: true
+    # exclusive
+    virtual-host:
+
+smart:
+  password: 202cb962ac59075b964b07152d234b70
+  excetion:
+    enable: true  #是否显示异常
+
+jwt:
+  expiration: 604800
+  secret: mySecret
+
+logging:
+  level:
+    com:
+      smart:
+        db:
+          dao: debug
+
