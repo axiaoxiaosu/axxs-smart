@@ -2,3 +2,5 @@ logs/
 target/
 .idea/
 *.iml
+*-pre.yml
+

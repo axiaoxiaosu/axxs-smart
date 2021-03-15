@@ -1,10 +1,11 @@
 package com.smart.db.model;
 
-import java.io.Serializable;
-import java.util.Date;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
+
+import java.io.Serializable;
+import java.util.Date;
 
 @Data
 @EqualsAndHashCode
@@ -77,6 +78,6 @@ public class MplBtu implements Serializable {
      *
      * @mbggenerated
      */
-    private String ramark;
+    private String remark;
 
 }

@@ -1,8 +1,9 @@
 package com.smart.quartz.service;
 
-import com.common.result.PageRequest;
 import com.smart.db.model.MplTask;
-import com.smart.quartz.request.TaskAddRequest;
+import com.smart.quartz.request.AddTaskRequest;
+import com.smart.quartz.request.GetTaskListRequest;
+
 import java.util.List;
 
 /**
@@ -10,7 +11,18 @@ import java.util.List;
  */
 public interface TaskService {
 
-    List<MplTask> getTaskList(String jobName, PageRequest pageRequest);
+    /**
+     * 获取定时任务列表
+     */
+    List<MplTask> getTaskList(GetTaskListRequest getTaskListRequest);
 
-    boolean addTask(TaskAddRequest mplTask);
+    /**
+     * 添加一个定时任务
+     */
+    boolean addTask(AddTaskRequest mplTask);
+
+    /**
+     * 删除任务
+     */
+    boolean deleteTask(String jobId);
 }

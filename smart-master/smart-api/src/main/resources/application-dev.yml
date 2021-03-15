@@ -1,0 +1,85 @@
+server:
+  port: 7778
+  use-forward-headers: true
+  servlet:
+    session:
+      cookie:
+        name: smart-oauth
+
+spring:
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+  application:
+    name: smart-api
+  datasource:
+    username: root
+    password: 123456
+    url: jdbc:mysql://localhost:3306/smart?useUnicode=true&characterEncoding=utf8&serverTimezone=GMT%2B8
+    druid:
+      initial-size: 5
+      max-active: 20
+      min-idle: 10
+      stat-view-servlet:
+        login-password: druid
+        login-username: druid
+      web-stat-filter:
+        exclusions: '*.js,*.gif,*.jpg,*.png,*.css,*.ico,/druid/*'
+  redis:
+    database: 0
+    host: 127.0.0.1
+    password: ''
+    port: 6379
+    timeout: 3000
+  swagger-enable: true  #swagger 开关
+  boot:
+    admin:
+      client:
+        url: http://localhost:7775/admin-serve
+        enabled: false
+  rabbitmq:
+    username: lwq
+    password: 123
+
+
+
+smart:
+  page-url: http://127.0.0.1:7045/#/oauth
+  password: 202cb962ac59075b964b07152d234b70
+  excetion:
+    enable: true  #是否显示异常
+
+logging:
+  level:
+    root: info
+    com:
+      smart:
+        db:
+          dao: debug
+mybatis:
+  mapper-locations:
+    - classpath*:mapper/*DAO.xml
+
+
+security:
+  oauth2:
+    client:
+      clientId: smart-api
+      client-secret: 123smart
+      accessTokenUri: http://127.0.0.1:7775/oauth/token
+      userAuthorizationUri: http://127.0.0.1:7775/oauth/authorize
+      grant-type: authorization_code
+      pre-established-redirect-uri: http://127.0.0.1:7778/login
+      #不使用url上携带的redirectURI
+      use-current-uri: false
+    resource:
+      user-info-uri: http://127.0.0.1:7775/api/getUser
+
+management:
+  endpoints:
+    enabled-by-default: true
+    web:
+      exposure:
+        include: "*"
+        exclude: shutdown
+      base-path: /api-actuator

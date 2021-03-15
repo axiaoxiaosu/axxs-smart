@@ -18,6 +18,12 @@ public interface CommonUserMapper {
  * @return 获取用户数量 1 查询默认数据源
  * @return 获取用户数量  2  查询指定的第二数据源
  * @return 获取用户数量  3  查询动态添加的数据源
+ * @return 获取用户数量 1 查询默认数据源
+ * @return 获取用户数量  2  查询指定的第二数据源
+ * @return 获取用户数量  3  查询动态添加的数据源
+ * @return 获取用户数量 1 查询默认数据源
+ * @return 获取用户数量  2  查询指定的第二数据源
+ * @return 获取用户数量  3  查询动态添加的数据源
  * @return
  *//*
 

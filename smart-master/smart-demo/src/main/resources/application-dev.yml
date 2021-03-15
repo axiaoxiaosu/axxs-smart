@@ -1,0 +1,46 @@
+
+spring:
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+  application:
+    name: smart-demo
+  boot:
+    admin:
+      client:
+        url: http://127.0.0.1:7775/admin-serve
+  kafka:
+    bootstrap-servers: 127.0.0.1:9092
+    producer:
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+    consumer:
+      group-id: test-consumer
+      auto-offset-reset: latest
+      properties:
+        spring:
+          json:
+            trusted:
+              packages: com.smart.demo.mode
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+  data:
+    mongodb:
+      database: test
+      host: 127.0.0.1
+      port: 27017
+
+management:
+  endpoints:
+    # 如果将management.endpoints.enabled-by-default设置为false，则禁用所有端点
+    enabled-by-default: true
+    web:
+      exposure:
+        include: "*"
+        exclude: shutdown
+      base-path: /demo-actuator
+
+smart:
+  consumer:
+    test:
+      topic: test
+server:
+  port: 8081

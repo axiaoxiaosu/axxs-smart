@@ -1,9 +1,10 @@
 package com.smart.db.dao;
 
 import com.smart.db.model.MplTaskLog;
-import org.springframework.stereotype.Repository;
 
-@Repository
+import javax.annotation.Resource;
+
+@Resource
 public interface MplTaskLogDAO {
 
     int deleteByPrimaryKey(Long id);

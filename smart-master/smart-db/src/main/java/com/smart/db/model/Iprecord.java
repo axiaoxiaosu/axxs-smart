@@ -1,63 +1,61 @@
 package com.smart.db.model;
 
-import java.io.Serializable;
-import java.util.Date;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
+import java.io.Serializable;
+import java.util.Date;
+
 /**
  * iprecord
- * @author 
+ *
+ * @author
  */
 @Data
 @Accessors(chain = true)
 public class Iprecord implements Serializable {
+
+    private static final long serialVersionUID = 1L;
     /**
      * id
      */
     private Long id;
-
     /**
      * ip(long类型)
      */
     private Long ip;
-
     /**
      * 功能
      */
     private String func;
-
     /**
      * 国家
      */
     private String country;
-
     /**
      * 城市
      */
     private String city;
-
     /**
      * 地区
      */
     private String regionName;
-
     /**
      * 记录时间
      */
     private Date time;
-
     /**
      * 人数统计
      */
     private int count;
-
     /**
      * 地址
      */
     private String Address;
 
-    private static final long serialVersionUID = 1L;
+    public static long getSerialVersionUID() {
+        return serialVersionUID;
+    }
 
     public Long getId() {
         return id;
@@ -129,9 +127,5 @@ public class Iprecord implements Serializable {
 
     public void setAddress(String address) {
         Address = address;
-    }
-
-    public static long getSerialVersionUID() {
-        return serialVersionUID;
     }
 }

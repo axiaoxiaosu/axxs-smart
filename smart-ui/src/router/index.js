@@ -12,6 +12,12 @@ export const constantRoutes = [
     hidden: true
   },
   {
+    path: '/oauth',
+    component: () => import('@/views/login/oauth'),
+    hidden: true
+  },
+
+  {
     path: '/',
     component: Layout,
     redirect: '/home',
@@ -19,7 +25,7 @@ export const constantRoutes = [
       {
         path: 'home',
         name: 'home',
-        component: () => import('@/views/page-main/index.vue'),
+        component: () => import('@/views/Home.vue'),
         meta: { title: '首页', icon: 'xigua' },
         affix: true
       }

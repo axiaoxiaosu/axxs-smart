@@ -6,9 +6,8 @@ package com.smart.db.beanenum;
 public enum MplMenuEnum {
     MENUTYPE_1(1, "目录"),
     MENUTYPE_2(2, "菜单"),
-    MENUTYPE_3(3, "按钮")
-    ;
-    private int value;
+    MENUTYPE_3(3, "按钮");
+    private Integer value;
     private String text;
 
     MplMenuEnum(int value, String text) {
@@ -31,4 +30,5 @@ public enum MplMenuEnum {
 
     public void setText(String text) {
         this.text = text;
-    }}
+    }
+}

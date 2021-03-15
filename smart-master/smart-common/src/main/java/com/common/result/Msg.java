@@ -1,19 +1,23 @@
 package com.common.result;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.experimental.Accessors;
 
 /**
  * lwq
  */
 @Data
+@Accessors(chain = true)
 @NoArgsConstructor
+@AllArgsConstructor
 public class Msg {
 
     /**
      * 状态
      */
-    private int code = 0;
+    private int code = 200;
     /**
      * 结果集
      */

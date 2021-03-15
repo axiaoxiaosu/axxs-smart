@@ -1,51 +1,64 @@
 package com.smart.quartz.controller;
 
+import com.common.result.CommonResult;
 import com.common.result.Msg;
-import com.common.result.PageRequest;
-import com.smart.quartz.request.TaskAddRequest;
+import com.mysql.cj.x.protobuf.MysqlxDatatypes;
+import com.smart.db.model.MplMenu;
+import com.smart.quartz.request.AddTaskRequest;
+import com.smart.quartz.request.GetTaskListRequest;
 import com.smart.quartz.service.impl.TaskServiceImpl;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.*;
 
 
 /**
  * @author lwq
  */
 @Api("定时任务")
-@RestController("jobs")
+@RestController()
+@RequestMapping("/jobs")
 public class TaskController {
 
     @Autowired
     private TaskServiceImpl jobsService;
 
     @ApiOperation("根据条件查询定时任务")
-    @GetMapping("/getTaskList")
+    @PostMapping("/getTaskList")
     public Msg getTaskList(
             @ApiParam("job名称")
-            @RequestParam(required = false, value = "jobName") String jobName,
-            @ModelAttribute PageRequest pageRequest) {
-        return new Msg(jobsService.getTaskList(jobName, pageRequest));
+            @RequestBody(required = false) GetTaskListRequest getTaskListRequest) {
+        return new CommonResult(jobsService.getTaskList(getTaskListRequest));
+    }
+
+    public static void main(String[] args) {
+        List<String> li = new ArrayList<>();
+        li.add("userid");
+        li.add("channel");
+        li.add("keycode");
+        Collections.sort(li);
+
+        System.out.println(li);
+
     }
 
 
     @ApiOperation("添加一个定时任务")
     @PostMapping("/addTask")
-    public Msg addTask(@ModelAttribute TaskAddRequest mplTask) {
+    public Msg addTask(@RequestBody AddTaskRequest mplTask) {
         return new Msg(jobsService.addTask(mplTask));
     }
 
+
     @ApiOperation("删除一个定时任务")
-    @PostMapping("/deleteTask")
+    @DeleteMapping("/deleteTask")
     public Msg deleteTask(@RequestParam()
-                      @ApiParam("通过id删除定时任务") String jobId) {
-        return new Msg(null);
+                          @ApiParam("通过id删除定时任务") String jobId) {
+        return new Msg(jobsService.deleteTask(jobId));
     }
 
 }

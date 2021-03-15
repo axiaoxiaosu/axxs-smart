@@ -34,4 +34,5 @@ public enum UserEnum {
 
     public void setMsg(String msg) {
         this.msg = msg;
-    }}
+    }
+}

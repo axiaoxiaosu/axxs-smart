@@ -1,11 +1,13 @@
 package com.smart.db.dao;
 
-import com.smart.db.mapper.IMplTaskDAO;
 import com.smart.db.model.MplTask;
-import org.springframework.stereotype.Repository;
+import org.apache.ibatis.annotations.Param;
 
-@Repository
-public interface MplTaskDAO extends IMplTaskDAO {
+import javax.annotation.Resource;
+import java.util.List;
+
+@Resource
+public interface MplTaskDAO {
 
     int deleteByPrimaryKey(Long jobId);
 
@@ -18,4 +20,6 @@ public interface MplTaskDAO extends IMplTaskDAO {
     int updateByPrimaryKeySelective(MplTask record);
 
     int updateByPrimaryKey(MplTask record);
+
+    List<MplTask> selectJobByName(@Param("taskName") String taskName);
 }

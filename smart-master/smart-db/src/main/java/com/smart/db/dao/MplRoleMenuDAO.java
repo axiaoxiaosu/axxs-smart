@@ -1,14 +1,16 @@
 package com.smart.db.dao;
 
-import com.smart.db.mapper.IMplRoleMenuDAO;
 import com.smart.db.model.MplRoleMenu;
-import org.springframework.stereotype.Repository;
+import org.apache.ibatis.annotations.Param;
+
+import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * MplRoleMenuDAO继承基类
  */
-@Repository
-public interface MplRoleMenuDAO extends IMplRoleMenuDAO {
+@Resource
+public interface MplRoleMenuDAO {
 
     int deleteByPrimaryKey(Integer id);
 
@@ -21,4 +23,6 @@ public interface MplRoleMenuDAO extends IMplRoleMenuDAO {
     int updateByPrimaryKeySelective(MplRoleMenu record);
 
     int updateByPrimaryKey(MplRoleMenu record);
+
+    int deleteByMenuId(@Param("menuIds") List<Long> menuIds);
 }

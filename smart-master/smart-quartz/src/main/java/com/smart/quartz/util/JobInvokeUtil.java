@@ -1,11 +1,12 @@
 package com.smart.quartz.util;
 
 import com.smart.db.model.MplTask;
+import org.apache.commons.lang3.StringUtils;
+
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.LinkedList;
 import java.util.List;
-import org.apache.commons.lang3.StringUtils;
 
 /**
  * 任务执行工具
@@ -38,8 +39,8 @@ public class JobInvokeUtil {
     /**
      * 调用任务方法
      *
-     * @param bean 目标对象
-     * @param methodName 方法名称
+     * @param bean         目标对象
+     * @param methodName   方法名称
      * @param methodParams 方法参数
      */
     private static void invokeMethod(Object bean, String methodName, List<Object[]> methodParams)

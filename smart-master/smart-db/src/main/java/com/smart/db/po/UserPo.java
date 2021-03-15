@@ -1,19 +1,20 @@
 package com.smart.db.po;
 
-import com.smart.db.model.MplMenu;
+import com.smart.db.model.MenuData;
 import com.smart.db.model.MplRole;
 import com.smart.db.model.MplUser;
-import java.util.List;
 import lombok.Data;
+
+import java.io.Serializable;
+import java.util.List;
 
 /**
  * @author lwq
  * @data 2019/8/16
  */
 @Data
-public class UserPo {
-
+public class UserPo implements Serializable {
     private MplUser mplUser;
-    private List<MplMenu> mplMenus;
+    private List<MenuData> mplMenus;
     private MplRole mplRole;
 }

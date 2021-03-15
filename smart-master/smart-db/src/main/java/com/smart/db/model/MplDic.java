@@ -5,40 +5,36 @@ import java.util.Date;
 
 /**
  * mpl_dic
- * @author 
+ *
+ * @author
  */
 public class MplDic implements Serializable {
+
+    private static final long serialVersionUID = 1L;
     /**
      * id
      */
     private Long id;
-
     /**
      * 字典显示文本
      */
     private String text;
-
     /**
      * 表名
      */
     private String tableName;
-
     /**
      * 字典名称
      */
     private String code;
-
     /**
      * 字典值
      */
     private String value;
-
     /**
      * 创建时间
      */
     private Date createTime;
-
-    private static final long serialVersionUID = 1L;
 
     public Long getId() {
         return id;

@@ -1,30 +1,21 @@
 package com.common.base;
 
 import com.common.model.HttpClientResult;
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Set;
 import org.apache.http.HttpStatus;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.CloseableHttpResponse;
-import org.apache.http.client.methods.HttpDelete;
-import org.apache.http.client.methods.HttpEntityEnclosingRequestBase;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.client.methods.HttpPut;
-import org.apache.http.client.methods.HttpRequestBase;
+import org.apache.http.client.methods.*;
 import org.apache.http.client.utils.URIBuilder;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
+
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.util.*;
+import java.util.Map.Entry;
 
 public class BaseHttp {
 
@@ -55,7 +46,7 @@ public class BaseHttp {
     /**
      * 发送get请求；带请求参数
      *
-     * @param url 请求地址
+     * @param url    请求地址
      * @param params 请求参数集合
      */
     public static HttpClientResult doGet(String url, Map<String, String> params) throws Exception {
@@ -65,9 +56,9 @@ public class BaseHttp {
     /**
      * 发送get请求；带请求头和请求参数
      *
-     * @param url 请求地址
+     * @param url     请求地址
      * @param headers 请求头集合
-     * @param params 请求参数集合
+     * @param params  请求参数集合
      */
     public static HttpClientResult doGet(String url, Map<String, String> headers, Map<String, String> params)
             throws Exception {
@@ -122,7 +113,7 @@ public class BaseHttp {
     /**
      * 发送post请求；带请求参数
      *
-     * @param url 请求地址
+     * @param url    请求地址
      * @param params 参数集合
      */
     public static HttpClientResult doPost(String url, Map<String, String> params) throws Exception {
@@ -132,9 +123,9 @@ public class BaseHttp {
     /**
      * 发送post请求；带请求头和请求参数
      *
-     * @param url 请求地址
+     * @param url     请求地址
      * @param headers 请求头集合
-     * @param params 请求参数集合
+     * @param params  请求参数集合
      */
     public static HttpClientResult doPost(String url, Map<String, String> headers, Map<String, String> params)
             throws Exception {
@@ -182,7 +173,7 @@ public class BaseHttp {
     /**
      * 发送put请求；带请求参数
      *
-     * @param url 请求地址
+     * @param url    请求地址
      * @param params 参数集合
      */
     public static HttpClientResult doPut(String url, Map<String, String> params) throws Exception {
@@ -226,7 +217,7 @@ public class BaseHttp {
     /**
      * 发送delete请求；带请求参数
      *
-     * @param url 请求地址
+     * @param url    请求地址
      * @param params 参数集合
      */
     public static HttpClientResult doDelete(String url, Map<String, String> params) throws Exception {

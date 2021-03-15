@@ -1,9 +1,10 @@
 package com.smart.db.model;
 
-import java.io.Serializable;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
+
+import java.io.Serializable;
 
 @Data
 @EqualsAndHashCode

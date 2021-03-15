@@ -1,8 +1,9 @@
 package com.smart.db.model;
 
-import java.io.Serializable;
 import lombok.Data;
 import lombok.experimental.Accessors;
+
+import java.io.Serializable;
 
 /**
  * mpl_task_log

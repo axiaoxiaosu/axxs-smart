@@ -1,18 +1,19 @@
 import axios from 'axios'
-import { MessageBox, Message } from 'element-ui'
+import { Message } from 'element-ui'
 import store from '@/store'
 import { getCookie, TokenKey } from '@/utils/Cookis'
 
 // axios实例
 const service = axios.create({
   baseURL: process.env.BASE_URL, // url = base url + request url
-  timeout: 25000 // 超时时间
+  timeout: 25000, // 超时时间
+  withCredentials: true
+
 })
 
 // request 拦截器
 service.interceptors.request.use(
   config => {
-    // do something before request is sent
     if (window.sessionStorage.getItem('username')) {
       // 携带的token
       config.headers['token'] = getCookie(window.sessionStorage.getItem('username') + '-' + TokenKey)
@@ -37,61 +38,59 @@ service.interceptors.request.use(
 service.interceptors.response.use(
   response => {
     const res = response.data
-    // code!=0 出现错误
-    if (res.code !== 0) {
-      // 50008: Illegal token; 50012: Other clients logged in; 50014: Token expired;
-      if (res.code === 50008 || res.code === 50012 || res.code === 50014) {
-        // to re-login
-        MessageBox.confirm('你已被登出，可以取消继续留在该页面，或者重新登录', '确定登出', {
-          confirmButtonText: '重新登录',
-          cancelButtonText: '取消',
-          type: 'warning'
-        }).then(() => {
-          store.dispatch('user/resetToken').then(() => {
-            location.reload()
-          })
+
+    if (response.status === 200 & res.code === 200) {
+      return res
+    }
+    if (res.code === 403) {
+      store.dispatch('user/setRouterStatus', false)
+      store.dispatch('user/setRouterList', [])
+      window.location.href = `${window.location.origin}/smart/#/login`
+    }
+    if (res.code === 400) {
+      store.dispatch('user/setRouterStatus', false)
+      store.dispatch('user/setRouterList', [])
+    }
+    const errorMsg = res.msg || '未知异常'
+    Message({
+      message: errorMsg,
+      type: 'error',
+      duration: 1000
+    })
+    return res
+  },
+  error => {
+    if (error.status === 403 || error.response.status === 403 || (error && error.code && error.code === 'ECONNABORTED')) {
+      console.log('现在的登陆已失效请重新登陆')
+      // Message({ message: '现在的登陆已失效请重新登陆', type: 'error', duration: 3 * 1000 })
+      window.location.href = `${window.location.origin}/smart/#/login`
+      return
+    }
+
+    if (error.message === 'Network Error') {
+      const cookie = getCookie(window.sessionStorage.getItem('username') + '-' + TokenKey)
+      if (!cookie) {
+        Message({
+          message: '服务器抽风了请稍后访问',
+          type: 'error',
+          duration: 2 * 1000
+        })
+      } else {
+        Message({
+          message: '请求被拒绝了',
+          type: 'error',
+          duration: 2 * 1000
         })
       }
 
-      Message({
-        message: res.msg || '未知异常',
-        type: 'error',
-        duration: 1000
-      })
-      // 异常无需回调
-      // return Promise.reject(new Error(res.msg || 'Error'))
-    } else {
-      if (response.data === false) {
-        return Promise.reject(new Error('操作失败'))
-      }
-      return res
-    }
-  },
-  error => {
-    if (error.message === 'Network Error') {
-      console.log(error)
-      Message({
-        message: '请求被拒绝了',
-        type: 'error',
-        duration: 2 * 1000
-      })
       return Promise.reject(error)
     }
-    if (error.status === 403) {
-      Message({
-        message: '非法的访问',
-        type: 'error',
-        duration: 2 * 1000
-      })
-      return Promise.reject(error)
-    }
-
     Message({
       message: error.message,
       type: 'error',
       duration: 2 * 1000
     })
-    return Promise.reject(error)
+    return error// Promise.reject(error)
   }
 )
 

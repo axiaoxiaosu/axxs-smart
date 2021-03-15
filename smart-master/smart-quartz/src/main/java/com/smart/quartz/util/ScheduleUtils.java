@@ -4,15 +4,7 @@ import com.common.constants.QuartzConstant;
 import com.common.enums.QuartzEnums;
 import com.common.exception.SmartException;
 import com.smart.db.model.MplTask;
-import org.quartz.CronScheduleBuilder;
-import org.quartz.CronTrigger;
-import org.quartz.Job;
-import org.quartz.JobBuilder;
-import org.quartz.JobDetail;
-import org.quartz.JobKey;
-import org.quartz.Scheduler;
-import org.quartz.TriggerBuilder;
-import org.quartz.TriggerKey;
+import org.quartz.*;
 
 /**
  * quartz操作
@@ -50,34 +42,43 @@ public class ScheduleUtils {
      * 创建定时任务
      */
     public static void createScheduleJob(Scheduler scheduler, MplTask mplTask) throws Exception {
-        Class<? extends Job> jobClass = getQuartzJobClass(mplTask);
-        // 构建job信息
-        Long jobId = mplTask.getJobId();
-        String jobGroup = mplTask.getJobGroup();
-        JobDetail jobDetail = JobBuilder.newJob(jobClass).withIdentity(getJobKey(jobId, jobGroup))
-                .build();
+        Long jobId = null;
+        String jobGroup = null;
+        JobDetail jobDetail = null;
+        CronTrigger trigger = null;
+        try {
+            Class<? extends Job> jobClass = getQuartzJobClass(mplTask);
+            // 构建job信息
+            jobId = mplTask.getJobId();
+            jobGroup = mplTask.getJobGroup();
 
-        // 表达式调度构建器
-        CronScheduleBuilder cronScheduleBuilder = CronScheduleBuilder
-                .cronSchedule(mplTask.getCronExpression());
-        cronScheduleBuilder = handleCronScheduleMisfirePolicy(mplTask, cronScheduleBuilder);
+            //构建任务详情
+            jobDetail = JobBuilder.newJob(jobClass).withIdentity(getJobKey(jobId, jobGroup))
+                    .build();
 
-        // 按新的cronExpression表达式构建一个新的trigger
-        CronTrigger trigger = TriggerBuilder.newTrigger()
-                .withIdentity(getTriggerKey(jobId, jobGroup))
-                .withSchedule(cronScheduleBuilder).build();
+            // 表达式调度构建器
+            CronScheduleBuilder cronScheduleBuilder = CronScheduleBuilder
+                    .cronSchedule(mplTask.getCronExpression());
+            cronScheduleBuilder = handleCronScheduleMisfirePolicy(mplTask, cronScheduleBuilder);
 
-        // 放入参数，运行时的方法可以获取
-        jobDetail.getJobDataMap().put(QuartzConstant.TASK_JOB_SMART, mplTask);
+            // 按新的cronExpression表达式构建一个新的trigger
+            trigger = TriggerBuilder.newTrigger()
+                    .withIdentity(getTriggerKey(jobId, jobGroup))
+                    .withSchedule(cronScheduleBuilder).build();
 
-        // 判断是否存在
-        if (scheduler.checkExists(getJobKey(jobId, jobGroup))) {
-            // 防止创建时存在数据问题 先移除，然后在执行创建操作
-            scheduler.deleteJob(getJobKey(jobId, jobGroup));
+            // 放入参数，运行时的方法可以获取
+            jobDetail.getJobDataMap().put(QuartzConstant.TASK_JOB_SMART, mplTask);
+
+            // 判断是否存在
+            if (scheduler.checkExists(getJobKey(jobId, jobGroup))) {
+                // 防止创建时存在数据问题 先移除，然后在执行创建操作
+                scheduler.deleteJob(getJobKey(jobId, jobGroup));
+            }
+        } catch (Exception e) {
+            throw new SmartException(-4, "-3");
         }
 
         scheduler.scheduleJob(jobDetail, trigger);
-
         // 暂停任务
         if (mplTask.getStatus().equals(QuartzEnums.QUARTZ_STATUS_1.getCode())) {
             scheduler.pauseJob(ScheduleUtils.getJobKey(jobId, jobGroup));

@@ -156,69 +156,73 @@
     </el-card>
     <!--弹窗-->
     <div>
-      <el-dialog
-        v-dialogDrag
-        :close-on-click-modal="false"
-        :close-on-press-escape="false"
-        :visible.sync="dialog.show.fromDialog"
-        :title="dialog.title"
-        center
-        width="28%"
-      >
-        <div style="width: 80%">
-          <el-form ref="oneFrom" :rules="form.rule" :model="form.one" label-width="100px" size="mini">
+      <el-row>
+        <el-col :xs="24" :sm="24" :md="24" :lg="19" :xl="19">
+          <el-dialog
+            v-dialogDrag
+            :close-on-click-modal="false"
+            :close-on-press-escape="false"
+            :visible.sync="dialog.show.fromDialog"
+            :title="dialog.title"
+            center
+            width="28%"
+          >
+            <div style="width: 80%">
+              <el-form ref="oneFrom" :rules="form.rule" :model="form.one" label-width="100px" size="mini">
 
-            <el-form-item label="用户名称:" prop="username">
-              <el-input :disabled="form.one.disabled" v-model="form.one.username" class="input"/>
-            </el-form-item>
+                <el-form-item label="用户名称:" prop="username">
+                  <el-input :disabled="form.one.disabled" v-model="form.one.username" class="input"/>
+                </el-form-item>
 
-            <el-form-item label="密码:" prop="password">
-              <el-input :disabled="form.one.disabled" v-model="form.one.password" show-password class="input"/>
-            </el-form-item>
+                <el-form-item label="密码:" prop="password">
+                  <el-input :disabled="form.one.disabled" v-model="form.one.password" show-password class="input"/>
+                </el-form-item>
 
-            <el-form-item label="昵称:" prop="nickName">
-              <el-input :disabled="form.one.disabled" v-model="form.one.nickName" class="input"/>
-            </el-form-item>
+                <el-form-item label="昵称:" prop="nickName">
+                  <el-input :disabled="form.one.disabled" v-model="form.one.nickName" class="input"/>
+                </el-form-item>
 
-            <el-form-item label="头像:" prop="portrait">
-              <el-input :disabled="form.one.disabled" v-model="form.one.portrait" class="input"/>
-            </el-form-item>
+                <el-form-item label="头像:" prop="portrait">
+                  <el-input :disabled="form.one.disabled" v-model="form.one.portrait" class="input"/>
+                </el-form-item>
 
-            <el-form-item label="邮箱:" prop="email">
-              <el-input :disabled="form.one.disabled" v-model="form.one.email" class="input"/>
-            </el-form-item>
+                <el-form-item label="邮箱:" prop="email">
+                  <el-input :disabled="form.one.disabled" v-model="form.one.email" class="input"/>
+                </el-form-item>
 
-            <el-form-item label="最后登陆时间:" prop="lastTime">
-              <el-input :disabled="form.one.disabled" v-model="form.one.lastTime" class="input"/>
-            </el-form-item>
+                <el-form-item label="最后登陆时间:" prop="lastTime">
+                  <el-input :disabled="form.one.disabled" v-model="form.one.lastTime" class="input"/>
+                </el-form-item>
 
-            <el-form-item label="昵称:" prop="nickName">
-              <el-input :disabled="form.one.disabled" v-model="form.one.nickName" class="input"/>
-            </el-form-item>
+                <el-form-item label="昵称:" prop="nickName">
+                  <el-input :disabled="form.one.disabled" v-model="form.one.nickName" class="input"/>
+                </el-form-item>
 
-            <el-form-item label="修改时间:" prop="updateTime">
-              <el-input :disabled="form.one.disabled" v-model="form.one.updateTime" class="input"/>
-            </el-form-item>
+                <el-form-item label="修改时间:" prop="updateTime">
+                  <el-input :disabled="form.one.disabled" v-model="form.one.updateTime" class="input"/>
+                </el-form-item>
 
-            <el-form-item label="修改人:" prop="updateUser">
-              <el-input :disabled="form.one.disabled" v-model="form.one.updateUser" class="input"/>
-            </el-form-item>
-            <el-form-item s label="备注">
-              <el-input :disabled="form.one.disabled" v-model="form.one.ramark" class="input"/>
-            </el-form-item>
+                <el-form-item label="修改人:" prop="updateUser">
+                  <el-input :disabled="form.one.disabled" v-model="form.one.updateUser" class="input"/>
+                </el-form-item>
+                <el-form-item s label="备注">
+                  <el-input :disabled="form.one.disabled" v-model="form.one.ramark" class="input"/>
+                </el-form-item>
 
-            <el-footer size="large" style="text-align:right">
-              <div v-if="form.one.disabled">
-                <el-button type="primary" @click="()=>{dialog.show=false}">取消</el-button>
-              </div>
-              <div v-else>
-                <el-button type="primary" @click="submitForm('oneFrom',dialog.submitTo)">提交</el-button>
-                <el-button @click="resetForm('oneFrom')">重置</el-button>
-              </div>
-            </el-footer>
-          </el-form>
-        </div>
-      </el-dialog>
+                <el-footer size="large" style="text-align:right">
+                  <div v-if="form.one.disabled">
+                    <el-button type="primary" @click="()=>{dialog.show=false}">取消</el-button>
+                  </div>
+                  <div v-else>
+                    <el-button type="primary" @click="submitForm('oneFrom',dialog.submitTo)">提交</el-button>
+                    <el-button @click="resetForm('oneFrom')">重置</el-button>
+                  </div>
+                </el-footer>
+              </el-form>
+            </div>
+          </el-dialog>
+        </el-col>
+      </el-row>
     </div>
   </div>
 </template>
@@ -338,12 +342,12 @@ export default {
 
       // 右面的按钮
       const buttonHandle = resource.filter(e => (('/' + e.parentUrl + '/index') === self.$route.path || ('/' + e.parentUrl) === self.$route.path) &&
-        e.type === '按钮' && e.btnType === '右面')
+          e.type === '按钮' && e.btnType === '右面')
       self.btn.buttonHandle = buttonHandle
 
       // 下方按钮
       const downBtn = resource.filter(e => (('/' + e.parentUrl + '/index') === self.$route.path || ('/' + e.parentUrl) === self.$route.path) &&
-        e.type === '按钮' && e.btnType === '下面')
+          e.type === '按钮' && e.btnType === '下面')
       self.btn.downBtn = downBtn
       /** ****************生成每行的按钮end******************************/
     },

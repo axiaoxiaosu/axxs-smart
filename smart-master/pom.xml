@@ -21,10 +21,12 @@
 
 
     <modules>
+        <module>smart-oauth2-serve</module>
         <module>smart-db</module>
-        <module>smart-web</module>
+        <module>smart-api</module>
         <module>smart-common</module>
         <module>smart-quartz</module>
+        <module>smart-demo</module>
     </modules>
 
 

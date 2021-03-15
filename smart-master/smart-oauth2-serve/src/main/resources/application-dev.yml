@@ -1,0 +1,72 @@
+server:
+  port: 7775
+  use-forward-headers: true
+  servlet:
+    session:
+      cookie:
+        name: smart-oauth
+spring:
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+  application:
+    name: smart-admin-serve
+  datasource:
+    username: root
+    password: 123456
+    url: jdbc:mysql://localhost:3306/smart?useUnicode=true&characterEncoding=utf8&serverTimezone=GMT%2B8
+    druid:
+      initial-size: 5
+      max-active: 20
+      min-idle: 10
+      stat-view-servlet:
+        login-password: druid
+        login-username: druid
+      web-stat-filter:
+        exclusions: '*.js,*.gif,*.jpg,*.png,*.css,*.ico,/druid/*'
+  redis:
+    database: 0
+    host: 127.0.0.1
+    password: ''
+    port: 6379
+    timeout: 1000
+  swagger-enable: true  #swagger 开关
+  boot:
+    admin:
+      context-path: /admin-serve
+      client:
+        url: http://localhost:7775/admin-serve
+        enabled: false
+  #  服務内部登陸文件
+  thymeleaf:
+    cache: false
+    prefix: classpath:/static/
+    suffix: .html
+
+
+smart:
+  page-url: http://127.0.0.1:7045/#/oauth
+  password: 202cb962ac59075b964b07152d234b70
+  excetion:
+    enable: true  #是否显示异常
+
+logging:
+  level:
+    root: info
+    com:
+      smart:
+        db:
+          dao: debug
+mybatis:
+  mapper-locations:
+    - classpath*:mapper/*DAO.xml
+
+management:
+  endpoints:
+    # 如果将management.endpoints.enabled-by-default设置为false，则禁用所有端点
+    enabled-by-default: true
+    web:
+      exposure:
+        include: "*"
+        exclude: shutdown
+      base-path: /admin-actuator

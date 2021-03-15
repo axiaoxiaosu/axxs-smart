@@ -2,7 +2,7 @@
   <div class="wscn-http404-container">
     <div class="wscn-http404">
       <div class="pic-404">
-        <img class="pic-404__parent" src="https://i.loli.net/2019/11/06/EWQjl7MahyFV6nP.png" alt="404">
+        <img class="pic-404__parent" src="https://cdn.jsdelivr.net/gh/axiaoxiaosu/imgResource@main/snow/EWQjl7MahyFV6nP.png" alt="404">
         <img class="pic-404__child left" src="@/assets/404_images/404_cloud.png" alt="404">
         <img class="pic-404__child mid" src="@/assets/404_images/404_cloud.png" alt="404">
         <img class="pic-404__child right" src="@/assets/404_images/404_cloud.png" alt="404">

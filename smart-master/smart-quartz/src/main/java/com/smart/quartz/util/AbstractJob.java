@@ -6,14 +6,15 @@ import com.smart.db.dao.MplTaskDAO;
 import com.smart.db.dao.MplTaskLogDAO;
 import com.smart.db.model.MplTask;
 import com.smart.db.model.MplTaskLog;
-import java.util.Date;
 import lombok.extern.slf4j.Slf4j;
-import org.quartz.Job;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
+import org.quartz.StatefulJob;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Date;
 
 /**
  * Job基类
@@ -21,7 +22,7 @@ import org.springframework.transaction.annotation.Transactional;
  * @author lwq
  */
 @Slf4j
-public abstract class AbstractJob implements Job {
+public abstract class AbstractJob implements StatefulJob {
 
     /**
      * 线程变量
@@ -38,7 +39,7 @@ public abstract class AbstractJob implements Job {
         before();
         //获取quartz中需要执行的key
         MplTask mplTask = new MplTask();
-        BeanUtils.copyProperties(context.getMergedJobDataMap().get(QuartzConstant.TASK_JOB_SMART), mplTask);
+        BeanUtils.copyProperties(context.getJobDetail().getJobDataMap().get(QuartzConstant.TASK_JOB_SMART), mplTask);
         try {
             before();
             toExecute(context, mplTask);
@@ -71,19 +72,19 @@ public abstract class AbstractJob implements Job {
 
     @Transactional(rollbackFor = Exception.class)
     public void after(JobExecutionContext context, MplTask mplTask) {
-        long markLong = System.currentTimeMillis() - threadLocal.get().getTime() / 1000;
+        long markLong = (System.currentTimeMillis() - threadLocal.get().getTime());
         mplTask.setStatus("0");
         //执行次数+1
         mplTask.setCount(mplTask.getCount() + 1);
+        mplTask.setLastTime(new Date());
         mplTaskDAO.updateByPrimaryKeySelective(mplTask);
-
+        context.getJobDetail().getJobDataMap().put(QuartzConstant.TASK_JOB_SMART, mplTask);
         MplTaskLog mplTaskLog = new MplTaskLog();
         BeanUtils.copyProperties(mplTask, mplTaskLog);
         mplTaskLog.setTimeConsuming(markLong)
                 .setMsg("执行成功");
         mplTaskLogDAO.insertSelective(mplTaskLog);
-
-        log.warn("耗时-{}秒", markLong);
+        log.info("耗时-{}毫秒", markLong);
     }
 
     /**

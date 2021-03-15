@@ -3,7 +3,7 @@
     <div ref="galleryTop" class="swiper-container gallery-top" >
       <div class="swiper-wrapper">
         <div v-for="(s,index) in slide" :key="'wrapper'+index" class="swiper-slide">
-          <img :src="s" style="width: 100%;height: 100%">
+          <img :src="s" >
         </div>
       </div>
       <div ref="buttonNext" />
@@ -12,7 +12,7 @@
     <div ref="galleryThumbs" class="swiper-container gallery-thumbs" >
       <div class="swiper-wrapper">
         <div v-for="(s,index) in slide" :key="'wrapper'+index" class="swiper-slide">
-          <img :src="s" style="width: 100%;height: 100%">
+          <img :src="s" >
         </div>
       </div>
     </div>
@@ -112,13 +112,15 @@ export default {
   .swiper-slide {
     height: 100%;
     width: 100%;
-    background-size: cover;
-    background-position: center;
+    display: flex;
+    justify-content: center;
   }
 
   .swiper-slide img{
-    width: 100%;
-    height: 100%;
+    width: auto;
+    height: auto;
+    max-width: 100%;
+    max-height: 100%;
   }
   .gallery-top {
     height: 70%;
@@ -126,7 +128,7 @@ export default {
   }
   .gallery-thumbs {
     width: 100%;
-    height: 50%;
+    height: 30%;
     box-sizing: border-box;
     padding: 10px 0;
   }

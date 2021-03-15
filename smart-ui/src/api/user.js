@@ -2,7 +2,14 @@ import request from '@/utils/request'
 
 export function login(data) {
   return request({
-    url: '/user/login',
+    url: '/login',
+    method: 'get'
+  })
+}
+
+export function oauthLogin(data) {
+  return request({
+    url: `${process.env.OAUTH_SERVE_URL}/login`,
     method: 'post',
     data
   })
@@ -19,15 +26,15 @@ export function getInfo() {
 // 获取用户资源
 export function getResource() {
   return request({
-    url: '/menus/getMenusPage',
+    url: '/menus/getMenus',
     method: 'post'
   })
 }
 
 // 登出
-export function logout() {
+export function oauthLogout() {
   return request({
-    url: '/user/logout',
+    url: `${process.env.OAUTH_SERVE_URL}/logout`,
     method: 'post'
   })
 }

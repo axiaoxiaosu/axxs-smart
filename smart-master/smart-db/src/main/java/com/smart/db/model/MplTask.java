@@ -1,13 +1,18 @@
 package com.smart.db.model;
 
-import com.common.constants.QuartzConstant;
+import lombok.Data;
+import lombok.experimental.Accessors;
+
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * mpl_task
  *
  * @author
  */
+@Data
+@Accessors(chain = true)
 public class MplTask implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -38,85 +43,17 @@ public class MplTask implements Serializable {
     /**
      * 状态(0正常 1停止)
      */
-    private String status;
+    private String status = "0";
     /**
      * 执行次数
      */
-    private Integer count;
+    private Integer count = 0;
+    /**
+     * 最后一次执行时间
+     */
+    private Date lastTime;
     /**
      * 执行策略
      */
-    private String misfirePolicy = QuartzConstant.MISFIRE_DEFAULT;
-
-    public Long getJobId() {
-        return jobId;
-    }
-
-    public void setJobId(Long jobId) {
-        this.jobId = jobId;
-    }
-
-    public String getJobName() {
-        return jobName;
-    }
-
-    public void setJobName(String jobName) {
-        this.jobName = jobName;
-    }
-
-    public String getCronExpression() {
-        return cronExpression;
-    }
-
-    public void setCronExpression(String cronExpression) {
-        this.cronExpression = cronExpression;
-    }
-
-    public String getJobGroup() {
-        return jobGroup;
-    }
-
-    public void setJobGroup(String jobGroup) {
-        this.jobGroup = jobGroup;
-    }
-
-    public String getInvokeTarget() {
-        return invokeTarget;
-    }
-
-    public void setInvokeTarget(String invokeTarget) {
-        this.invokeTarget = invokeTarget;
-    }
-
-    public String getConcurrency() {
-        return concurrency;
-    }
-
-    public void setConcurrency(String concurrency) {
-        this.concurrency = concurrency;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
-    public Integer getCount() {
-        return count;
-    }
-
-    public void setCount(Integer count) {
-        this.count = count;
-    }
-
-    public String getMisfirePolicy() {
-        return misfirePolicy;
-    }
-
-    public void setMisfirePolicy(String misfirePolicy) {
-        this.misfirePolicy = misfirePolicy;
-    }
+    private String misfirePolicy = "0";
 }

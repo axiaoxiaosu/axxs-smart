@@ -1,13 +1,14 @@
 package com.smart.db.dao;
 
-import com.smart.db.mapper.IIprecordDAO;
 import com.smart.db.model.Iprecord;
-import org.springframework.stereotype.Repository;
+import org.apache.ibatis.annotations.Param;
 
+import javax.annotation.Resource;
 import java.util.List;
 
-@Repository
-public interface IprecordDAO extends IIprecordDAO {
+@Resource
+public interface IprecordDAO {
+
     int deleteByPrimaryKey(Long id);
 
     int insert(Iprecord record);
@@ -19,4 +20,11 @@ public interface IprecordDAO extends IIprecordDAO {
     int updateByPrimaryKeySelective(Iprecord record);
 
     int updateByPrimaryKey(Iprecord record);
+
+    List<Iprecord> getReportIp();
+
+    /**
+     * 查询该ip今天是否已经记录过了
+     */
+    List<Integer> selectIpByData(@Param("ip") long ipv4ToLong);
 }

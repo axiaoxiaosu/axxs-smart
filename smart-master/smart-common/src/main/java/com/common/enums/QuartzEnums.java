@@ -30,4 +30,5 @@ public enum QuartzEnums {
 
     public void setContext(String context) {
         this.context = context;
-    }}
+    }
+}

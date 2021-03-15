@@ -4,6 +4,9 @@ package com.common.switchdb;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.jdbc.datasource.lookup.AbstractRoutingDataSource;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+
 public class SwitchDataSource extends AbstractRoutingDataSource {
 
     /**
@@ -19,6 +22,12 @@ public class SwitchDataSource extends AbstractRoutingDataSource {
             super.afterPropertiesSet();
         }
         return switchStr;
+    }
+
+    public static void main(String[] args) {
+        BufferedReader reader = new BufferedReader(new InputStreamReader(SwitchDataSource.class.getClassLoader().getResourceAsStream("testnum.txt")));
+
+
     }
 
 }

@@ -1,9 +1,8 @@
 
 <template>
   <div>
-    <div ref="ip" style="width: 100%;height: 32vh;" />
+    <div ref="ip" class="echarts-layout"/>
     <div style="margin: auto 0;text-align: center" >
-
       <span class="title-font">访问情况统计</span>
     </div>
   </div>
@@ -171,6 +170,10 @@ export default {
 <style scoped>
   .title-font{
     font-family: "20px Extra large";
+  }
+  .echarts-layout{
+    height: 40vh;
+    width: 50vw;
   }
 </style>
 

@@ -1,10 +1,11 @@
 package com.common.result;
 
 import com.github.pagehelper.PageInfo;
-import java.util.List;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
+
+import java.util.List;
 
 /**
  * 默认分页返回

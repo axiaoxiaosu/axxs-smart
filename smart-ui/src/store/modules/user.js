@@ -1,4 +1,4 @@
-import { login, logout, getInfo, getResource } from '@/api/user'
+import { login, oauthLogout, getInfo, getResource } from '@/api/user'
 import { getCookie, setCookie, removeCookie, TokenKey } from '@/utils/Cookis'
 import { constantRoutes } from '@/router'
 
@@ -61,6 +61,8 @@ const actions = {
     return new Promise(
       (resolve, reject) => {
         getResource(state.token).then(response => {
+          if (!response) { return }
+
           const { data } = response
           if (!data) {
             reject('该用户没有资源')
@@ -72,10 +74,7 @@ const actions = {
           if (token) {
             setCookie(window.sessionStorage.getItem('username') + '-' + TokenKey, token, 5)
           }
-          // 存储vuex一份
-          commit('SET_RESOURCE', data)
           commit('SET_ROLES', data)
-          // setCookie(MenusKey, data)
           resolve(data)
         }).catch(error => {
           reject(error)
@@ -106,7 +105,7 @@ const actions = {
   // 用户登出
   logout({ commit, state }) {
     return new Promise((resolve, reject) => {
-      logout(state.token).then(() => {
+      oauthLogout(state.token).then(() => {
         commit('SET_TOKEN', '')
         removeCookie(TokenKey)
         resolve()

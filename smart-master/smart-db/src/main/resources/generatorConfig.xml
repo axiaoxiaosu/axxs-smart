@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE generatorConfiguration
-  PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
-  "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+        PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
 
 <generatorConfiguration>
     <properties resource="jdbc.properties"/>
@@ -21,9 +21,9 @@
         </commentGenerator>
 
         <jdbcConnection connectionURL="${jdbc.connectionURL}"
-          driverClass="${jdbc.driverClass}"
-          password="${jdbc.password}"
-          userId="${jdbc.userId}">
+                        driverClass="${jdbc.driverClass}"
+                        password="${jdbc.password}"
+                        userId="${jdbc.userId}">
         </jdbcConnection>
 
         <javaModelGenerator targetPackage="com.smart.model" targetProject="smart-db\src\main\java"/>
@@ -31,7 +31,7 @@
         <sqlMapGenerator targetPackage="dao" targetProject="smart-db\src\main\resources\com\smart"/>
 
         <javaClientGenerator targetPackage="com.smart.dao" targetProject="smart-db\src\main\java"
-          type="XMLMAPPER"/>
+                             type="XMLMAPPER"/>
         <!--生成全部表tableName设为%-->
         <table tableName="%">
             <generatedKey column="id" identity="true" sqlStatement="MySql"/>

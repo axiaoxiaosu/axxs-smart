@@ -38,7 +38,27 @@ const copy = (obj) => {
   return o
 }
 
-const treeDispose = (data, c = 0, level = 0, id = 'id', pid = 'parentId') => {
+/**
+ * 遍历树节点查找指定的id
+ * @param {树节点数组对象} treeDate
+ * @param {要查找的id} id
+ */
+const findTree = (treeDate, id, resultDate) => {
+  let data = []
+  data = treeDate.filter(e => e.parentId === id)
+
+  if (data.length > 0) {
+    data.forEach(e => { resultDate.push(e) })
+  }
+
+  treeDate.forEach(element => {
+    if (element.children) {
+      findTree(element.children, id, resultDate)
+    }
+  })
+}
+
+const treeDispose = (data, c = 0, level = 0) => {
   const ary = []
   level++
   data.filter(e => {
@@ -49,7 +69,7 @@ const treeDispose = (data, c = 0, level = 0, id = 'id', pid = 'parentId') => {
   for (let i = 0; i < ary.length; i++) {
     ary[i].children = treeDispose(data, ary[i].id, level)
     ary[i]._level = level
-    ary[i].label = ary[i].title
+    ary[i].label = ary[i].menuName
   }
   return ary
 }
@@ -57,6 +77,7 @@ const treeDispose = (data, c = 0, level = 0, id = 'id', pid = 'parentId') => {
 export default {
   myIsNotEmpty: myIsNotEmpty,
   copy: copy,
-  treeDispose: treeDispose
+  treeDispose: treeDispose,
+  findTree: findTree
 }
 

@@ -1,7 +1,7 @@
 <template>
   <div style="padding-top: 10px">
     <el-row :gutter="20" style="margin-right: 0">
-      <el-col :xs="24" :sm="24" :md="24" :lg="4" :xl="4" style="height: 80vh">
+      <el-col v-if="showTreeView" :xs="24" :sm="24" :md="24" :lg="4" :xl="4" style="height: 80vh">
         <div style="height: 100%">
           <el-card style="height: 100%">
             <div class="tree">
@@ -12,17 +12,18 @@
                 ref="tree"
                 :filter-node-method="filterNode"
                 :data="tree.treeData"
+
                 default-expand-all/>
             </div>
           </el-card>
         </div>
       </el-col>
       <el-col v-if="device!=='mobile'" :span="1" style="height: 85vh">
-        <div style="text-align: center">
+        <div style="text-align: center" @click="()=>{showTreeView = !showTreeView}">
           <el-tooltip placement="top">
             <div slot="content">树形结构展示图</div>
             <i
-              class="el-icon-d-arrow-left"
+              :class="[showTreeView?'el-icon-d-arrow-left':'el-icon-d-arrow-right']"
               style="   position: absolute;    top: 50%;    transform: translate(0, -50%);"/>
           </el-tooltip>
         </div>
@@ -57,21 +58,20 @@
                       </el-checkbox-group>
                     </el-tooltip>
                   </el-col>
-
                 </el-row>
               </el-card>
             </el-col>
 
           </el-row>
-          <el-row style="height: 60vh">
-            <el-col style="height: 100%">
+          <el-row >
+            <el-col>
               <el-table
                 v-loading="tableLoading"
                 :data="page.tableData"
                 element-loading-text="加载中,请稍后"
                 stripe
+                max-height="600"
                 align="center"
-                class="page-table"
                 @selection-change="(e)=>{multitermData=e}">
                 <el-table-column align="center" type="selection" width="60"/>
                 <el-table-column type="index" label="序号" width="60"/>
@@ -93,12 +93,6 @@
                   align="center"
                   prop="type"
                   label="目录"
-                />
-
-                <el-table-column
-                  align="center"
-                  prop="title"
-                  label="菜单标题"
                 />
 
                 <el-table-column
@@ -229,9 +223,6 @@
           >
             <div style="width: 100%">
               <el-form ref="oneFrom" :rules="form.rule" :model="form.one" size="mini">
-                <el-form-item label="菜单标题:" prop="title">
-                  <el-input :disabled="form.one.disabled" v-model="form.one.title" class="input"/>
-                </el-form-item>
                 <el-form-item label="菜单名称:" prop="menuName">
                   <el-input :disabled="form.one.disabled" v-model="form.one.menuName" class="input"/>
                 </el-form-item>
@@ -250,8 +241,8 @@
                   <el-select :disabled="form.one.disabled" v-model="form.one.parentId" placeholder="选择上级菜单">
                     <el-option
                       v-for="(e,index) in page.menuModule"
-                      :key="e.title+index"
-                      :label="e.title"
+                      :key="index"
+                      :label="e.menuName"
                       :value="e.id"/>
                   </el-select>
                 </el-form-item>
@@ -263,7 +254,7 @@
                     inactive-value="1"/>
                 </el-form-item>
                 <el-form-item label="跳转路由:">
-                  <el-input :disabled="form.one.disabled" v-model="form.one.url" class="input"/>
+                  <el-input :disabled="form.one.disabled" v-model="form.one.url" placeholder="如果是目录或资源就写router，按钮就写url" class="input"/>
                 </el-form-item>
                 <el-form-item label="icon(默认西瓜)">
                   <el-select v-model="form.one.icon" :disabled="form.one.disabled">
@@ -290,7 +281,7 @@
                 </el-form-item>
                 <el-footer size="large" style="text-align:right">
                   <div v-if="form.one.disabled">
-                    <el-button type="primary" @click="()=>{dialog.show=false}">取消</el-button>
+                    <el-button type="primary" @click="()=>{dialog.show.fromDialog=false;}">取消</el-button>
                   </div>
                   <div v-else>
                     <el-button type="primary" @click="submitForm('oneFrom',dialog.submitTo)">提交</el-button>
@@ -307,7 +298,7 @@
 </template>
 
 <script>
-import { addMenu, deleteMenu, updateMenu, getMenusPage } from '@/api/ment'
+import { addMenu, deleteMenu, updateMenu, getMenusPage, getMenus } from '@/api/ment'
 import ElTableTreeColumn from 'element-tree-grid'
 import svgIcons from '../menu/svg-icons'
 
@@ -317,6 +308,7 @@ export default {
   data: function() {
     return {
       showResult: true,
+      showTreeView: true,
       dialog: {
         show: {
           fromDialog: false
@@ -347,9 +339,8 @@ export default {
       form: {
         one: {
           disabled: false,
-          title: '',
           type: '',
-          isShow: 1,
+          isShow: '1',
           parentId: '',
           url: '',
           icon: '',
@@ -444,9 +435,12 @@ export default {
     async init() {
       const self = this
       self.getData()
-      await getMenusPage().then((response) => {
+      const pamat = {}
+      pamat.isShow = true
+      await getMenus(pamat).then((response) => {
         self.allData = response.data
-        self.tree.treeData = self.$util.treeDispose(response.data)
+        self.tree.treeData = response.data
+        //  self.tree.treeData = self.$util.treeDispose(response.data)
         self.page.menuModule = response.data.filter(e => e.type === '目录')
       })
     },
@@ -457,6 +451,7 @@ export default {
       // 加载ing
       let getRolesRequest = Object.assign({}, self.searchData)
       getRolesRequest = JSON.parse(JSON.stringify(getRolesRequest))
+      getRolesRequest.isShow = true
       await getMenusPage(getRolesRequest).then((response) => {
         if (response) {
           self.page.tableData = response.data
@@ -468,6 +463,7 @@ export default {
       })
       self.tableLoading = false
     },
+
     // 批量操作
     handleBatchOperate() {
       const self = this
@@ -516,32 +512,42 @@ export default {
       self.dialog.show.fromDialog = true
     },
     update(button, scope) {
-      const self = this
       // 还原表单状态
-      self.dialog = self.$options.data().dialog
+      this.dialog = this.$options.data().dialog
       // 带入该行数据
-      const row = self.$util.copy(scope.row)
-      self.form.one = row
+      const row = this.$util.copy(scope.row)
+      this.form.one = row
       // 带入数据id标识
-      self.form.menuId = scope.row.id
+      this.form.menuId = scope.row.id
+
+      this.form.one.disabled = false
+      // 处理单选按钮
+      row.isShow === '是' ? this.form.one.isShow = '1' : this.form.one.isShow = '2'
+
       // 带入操作按钮
-      self.dialog.submitTo = button
+      this.dialog.submitTo = button
       // 打开弹窗
-      self.dialog.show.fromDialog = true
+      this.dialog.show.fromDialog = true
     },
     get(button, scope) {
-      const self = this
       // 表单赋值
-      self.form.one = scope.row
+      this.form.one = scope.row
       // 设置只读
-      self.form.one.disabled = true
+      this.form.one.disabled = true
       // 设置dialog文本
-      self.dialog.title = '查看'
+      this.dialog.title = '查看'
       // 打开dialog
-      self.dialog.show.fromDialog = true
+      this.dialog.show.fromDialog = true
     },
     delete(button, scope) {
-      const self = this
+      const result = []
+      this.$util.findTree(this.tree.treeData, scope.row.id, result)
+      if (result.length > 0) {
+        let menuNames = ''
+        result.forEach(e => { menuNames = menuNames + '[' + e.menuName + ']' })
+        this.$message.error(`该资源下有未删除的资源，请先删除子资源，${menuNames}`, 2000)
+        return
+      }
       self.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
@@ -551,13 +557,13 @@ export default {
         parame.menusIds = scope.row.id
         button.action(parame).then((response) => {
           if (response && response.code === 0) {
-            self.$notify.success('操作成功,请刷新界面')
+            self.$notify.success('删除成功')
             // 刷新界面
             self.init()
           }
         }).catch((error) => {
           console.error(error)
-          self.$message('操作异常')
+          self.$message('删除失败')
         })
       }).catch(() => {
       })
@@ -570,7 +576,7 @@ export default {
           button.action(self.form.one).then((response) => {
             if (response && response.code === 0) {
               let msg = '操作成功'
-              if (button.name === 'add') msg = '操作成功,请刷新界面查看左侧目录'
+              if (button.name === 'add') msg = '添加成功'
               self.$notify.success(msg)
               self.dialog.show.fromDialog = false
               self.init()
@@ -578,7 +584,7 @@ export default {
           }
           ).catch((error) => {
             console.error(error)
-            self.$message('操作异常')
+            self.$message('添加失败')
           }
           )
         } else {
@@ -638,11 +644,11 @@ export default {
     },
     menuModuleDispole(e) {
       const self = this
-      if (e === '3' || e === '按钮') {
-        const menuArray = self.allData.filter(e => e.type === '菜单')
+      if (e === 3 || e === '按钮') {
+        const menuArray = self.allData.filter(e => e.type === 1)
         self.page.menuModule = menuArray
       } else {
-        const menuArray = self.allData.filter(e => e.type === '目录')
+        const menuArray = self.allData.filter(e => e.type === 2)
         menuArray.push({
           title: '老子自己就是根目录',
           id: 0
@@ -657,11 +663,10 @@ export default {
     },
     // 表单展示类型切换
     switchChange(e) {
-      const self = this
       if (e) {
-        self.getData()
+        this.getData()
       } else {
-        self.page.tableData = self.tree.treeData
+        this.page.tableData = this.tree.treeData
       }
     }
   }

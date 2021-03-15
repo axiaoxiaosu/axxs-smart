@@ -1,9 +1,9 @@
 package com.smart.db.model;
 
-import com.common.annotationoo.DicMark;
+import lombok.Data;
+
 import java.io.Serializable;
 import java.util.Date;
-import lombok.Data;
 
 /**
  * mpl_role
@@ -13,7 +13,6 @@ import lombok.Data;
 @Data
 public class MplRole implements Serializable {
 
-    private final String tableName = "mpl_role";
     private static final long serialVersionUID = 1L;
     /**
      * id
@@ -26,7 +25,6 @@ public class MplRole implements Serializable {
     /**
      * 是否启用(0有效,1冻结,2,无效)
      */
-    @DicMark
     private String status;
     /**
      * 创建时间

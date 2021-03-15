@@ -1,12 +1,13 @@
 package com.smart.db.dao;
 
 import com.smart.db.model.MplDic;
-import java.util.List;
 import org.apache.ibatis.annotations.Param;
-import org.springframework.stereotype.Repository;
 
-@Repository
+import javax.annotation.Resource;
+import java.util.List;
+@Resource
 public interface MplDicDAO {
+
     int deleteByPrimaryKey(Long id);
 
     int insert(MplDic record);
