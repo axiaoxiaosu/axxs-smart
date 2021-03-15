@@ -14,12 +14,16 @@ springboot+vue  permissions manage
 </p>
 
 
-访问地址:http://47.100.207.229:7045
+访问地址:https://axiaoxiaosu.top/smart/
+单页面 spa+springsecurity oauth2 验证码登陆，集成授权服务器,客户服务器，客户端配置于mysql,session使用redis共享
+
+vue路由自动生成--根据后端权限返回生成
 
 前端:vue + elementUI + axios + vuex + nprogress ...
+
 后端:mysql + springboot + mybatis + swagger2 + redis ....
 
 效果如图：
-<img src="https://i.loli.net/2019/11/06/OvCBiJkNmXWAUr3.jpg" >
-<img src="https://i.loli.net/2019/11/06/REAf3MDpl7hGIgz.jpg" >
-<img src="https://i.loli.net/2019/11/06/6IUVEqzrc945blZ.jpg" >
+<img src="https://cdn.jsdelivr.net/gh/axiaoxiaosu/imgResource/snow/1.png" >
+<img src="https://cdn.jsdelivr.net/gh/axiaoxiaosu/imgResource/snow/2.png" >
+<img src="https://cdn.jsdelivr.net/gh/axiaoxiaosu/imgResource/snow/3.png" >
