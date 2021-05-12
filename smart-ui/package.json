@@ -22,7 +22,7 @@
     "js-md5": "^0.7.3",
     "nprogress": "^0.2.0",
     "particles.js": "^2.0.0",
-    "swiper": "^5.0.3",
+    "swiper": "^6.5.1",
     "vue": "^2.5.2",
     "vue-canvas-nest": "^2.0.0",
     "vue-particle-effect-buttons": "^1.0.4",
